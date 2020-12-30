@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Demo of CSS Tricks implementation of google web fonts by using preconnect preload and some javascript">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Merriweather&display=swap" />
+
+    <title>Font loading...</title>
+</head>
+
+<body class="no-js">
+    <p>
+        Font: <span id="js-font-status">not loaded</span>
+    </p>
+
+    <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dapibus pulvinar nulla. Proin vitae ex vitae eros
+        ultricies placerat. Vivamus consectetur ultrices vulputate. Curabitur sit amet scelerisque tortor, nec eleifend
+        dolor. Vestibulum justo arcu, volutpat vel fermentum et, tempus vulputate metus.</p>
+
+
+
+
+    <script>
+        /* If JavaScript is not available, 
+         * you can use .no-js class to apply
+         * web font styles.
+         *
+         * If JS is available, 
+         * this class will be removed.    
+         */
+        document.getElementsByTagName("body")[0].classList.remove("no-js");
+    </script>
+
+    <script>
+        var interval = null;
+        
+        var stylelink = document.createElement("link");
+        stylelink.rel = "stylesheet";
+        stylelink.href = "style.css";
+
+        var link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = "https://fonts.googleapis.com/css2?family=Merriweather&display=swap";
+
+        function fontLoadListener() {
+            var hasLoaded = false
+            try {
+                hasLoaded = document.fonts.check('12px "Merriweather"')
+            } catch (error) {
+                console.info(`document.fonts API error: ${error}`)
+                fontLoadedSuccess();
+                return
+            }
+
+            if (hasLoaded) {
+                fontLoadedSuccess();
+            }
+        }
+
+        function fontLoadedSuccess() {
+            if (interval) {
+                clearInterval(interval);
+            }
+
+            document.getElementById("js-font-status").innerHTML = "finished loading";
+            document.getElementsByTagName("body")[0].classList.add("wf-merriweather--loaded");
+        }
+
+        interval = setInterval(fontLoadListener, 500)
+        
+
+        document.getElementsByTagName("head")[0].appendChild(link);
+
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementsByTagName("head")[0].appendChild(stylelink);
+        })
+    </script>
+
+</body>
+
+</html>
