@@ -11,9 +11,20 @@
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Merriweather&display=swap" />
 
     <title>Font loading...</title>
+    <style>
+        body{
+            font-size: 29px;line-height: 1.25;padding:0;margin:0;
+        }
+        p{
+            padding:0;margin:0;
+        }
+    </style>
 </head>
 
 <body class="no-js">
+    <p>
+        <button onclick="load();">Load</button>
+    </p>
     <p>
         Font: <span id="js-font-status">not loaded</span>
     </p>
@@ -22,8 +33,6 @@
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dapibus pulvinar nulla. Proin vitae ex vitae eros
         ultricies placerat. Vivamus consectetur ultrices vulputate. Curabitur sit amet scelerisque tortor, nec eleifend
         dolor. Vestibulum justo arcu, volutpat vel fermentum et, tempus vulputate metus.</p>
-
-
 
 
     <script>
@@ -72,13 +81,19 @@
             document.getElementsByTagName("body")[0].classList.add("wf-merriweather--loaded");
         }
 
-        interval = setInterval(fontLoadListener, 500)
         
 
-        document.getElementsByTagName("head")[0].appendChild(link);
+        function load(){
+            interval = setInterval(fontLoadListener, 500)
+            document.getElementsByTagName("head")[0].appendChild(link);
+            document.getElementsByTagName("head")[0].appendChild(stylelink);
+        }
+        
+
+      
 
         document.addEventListener("DOMContentLoaded", function () {
-            document.getElementsByTagName("head")[0].appendChild(stylelink);
+            //document.getElementsByTagName("head")[0].appendChild(stylelink);
         })
     </script>
 
